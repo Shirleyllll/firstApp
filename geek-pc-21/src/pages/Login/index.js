@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card } from 'antd'
+import { Card, Form, Input, Button, Checkbox } from 'antd'
 import './index.scss'
 //引入图片方法
 import logo from 'assets/logo.jpg'
@@ -10,12 +10,28 @@ export default class Login extends Component {
                 <Card className="login-container">
                     {/* 引入图片 */}
                     <img src={logo} alt="" />
-                    <h1>我的校园</h1>
-                    <p>Card content</p>
-                    <p>Card content</p>
-                    <p>Card content</p>
+                    <Form size="large">
+                        <Form.Item>
+                            <Input placeholder="请输入你的手机号"/>
+                        </Form.Item>
+
+                        <Form.Item>
+                            <Input placeholder="请输入验证码" />
+                        </Form.Item>
+
+                        <Form.Item valuePropName="checked">
+                            <Checkbox>我已阅读并同意</Checkbox>
+                        </Form.Item>
+
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" block>
+                                登录
+                            </Button>
+                        </Form.Item>
+                        </Form>
 
                 </Card>
+
             </div>            
         )
 
