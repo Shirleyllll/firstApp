@@ -1,10 +1,21 @@
 import React, { Component } from 'react'
-import { Button } from 'antd'
+import { Card } from 'antd'
+import './index.css'
+//引入图片方法
+// import logo from '../../assets/logo.png'
 export default class Login extends Component {
     render() {
         return (
-            <div>
-                登录布局组件 <Button type="primary">我是一个按钮</Button>
+            <div className="login">
+                <Card className="login-container">
+                    {/* 引入图片 */}
+                    {/* <img src={logo} alt="" /> */}
+                    <h1>我的校园</h1>
+                    <p>Card content</p>
+                    <p>Card content</p>
+                    <p>Card content</p>
+
+                </Card>
             </div>            
         )
 
