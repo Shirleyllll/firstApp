@@ -13,6 +13,7 @@ export default class Login extends Component {
                     <Form size="large">
                         <Form.Item
                             name="mobile"
+                            validateTrigger={['onChange','onBlur']}
                             rules={[
                                 { 
                                     required: true, 
@@ -21,7 +22,7 @@ export default class Login extends Component {
                                 {
                                     pattern: /^1[3-9]\d{9}$/,
                                     message:'手机号格式错误',
-                                    validateTrigger:'onChange'
+                                    validateTrigger:'onBlur'
                                 }
                             ]}
                         >
