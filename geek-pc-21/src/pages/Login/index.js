@@ -4,16 +4,24 @@ import './index.scss'
 //引入图片方法
 import logo from 'assets/logo.jpg'
 export default class Login extends Component {
+    onFinish = values => {
+        console.log(values);
+      };
     render() {
+
         return (
             <div className="login">
                 <Card className="login-container">
                     {/* 引入图片 */}
                     <img src={logo} alt="" />
-                    <Form size="large">
+                    <Form 
+                        size="large"
+                        onFinish={this.onFinish}
+
+                    >
                         <Form.Item
+                        // validateTrigger={['onChange','onBlur']}
                             name="mobile"
-                            validateTrigger={['onChange','onBlur']}
                             rules={[
                                 { 
                                     required: true, 
@@ -26,7 +34,7 @@ export default class Login extends Component {
                                 }
                             ]}
                         >
-                            <Input placeholder="请输入手机号"/>
+                            <Input placeholder="请输入手机号" autoComplete="off"/>
                         </Form.Item>
                         <Form.Item name="code" rules={[
                             {
@@ -63,4 +71,5 @@ export default class Login extends Component {
         )
 
     }
+
 }
