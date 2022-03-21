@@ -51,8 +51,13 @@ export default class Login extends Component {
 
                         <Form.Item valuePropName="checked" name="agree" rules={[
                             {
-                                required:true,
-                                message:"请阅读并同意协议"
+                                validator(rule, value){
+                                    if (value) {
+                                        return Promise.resolve()
+                                    } else {
+                                        return Promise.reject(new Error('请阅读并同意'))
+                                    }
+                                }
                             }
                         ]}>
                             <Checkbox>我已阅读并同意</Checkbox>
