@@ -7,7 +7,7 @@ const instance = axios.create({
 
 //配置拦截器
 //添加请求拦截器
-axios.interceptors.request.use(
+instance.interceptors.request.use(
     function (config) {
         //在发送请求之前做什么
         return config
