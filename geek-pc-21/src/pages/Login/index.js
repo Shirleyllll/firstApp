@@ -1,21 +1,27 @@
 import React, { Component } from 'react'
 import { Card, Form, Input, Button, Checkbox } from 'antd'
 import './index.scss'
-import request from 'utils/request'
+import { login } from 'api/user'
 //引入图片方法
 import logo from 'assets/logo.jpg'
 export default class Login extends Component {
 
     onFinish = async ({ mobile, code }) => {
-        const res = await request({
-            method:'post',
-            url:'/authorizations',
-            data: {
-                mobile,
-                code
-            }
-        })
-        console.log(res)
+        try {
+            const res = await login(mobile, code);
+            console.log(res)
+            //登录成功
+            //1.保存token
+            localStorage.setItem('token',res.data.token)
+            //2.跳转到首页
+            this.props.history.push('/home')
+            //3.提示消息
+            alert('登录成功')
+        } catch(error) {
+            console.log(error)
+            alert(error.response.data)
+        }
+
     }
     
     render() {
