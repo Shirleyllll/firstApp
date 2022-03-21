@@ -1,12 +1,23 @@
 import React, { Component } from 'react'
 import { Card, Form, Input, Button, Checkbox } from 'antd'
 import './index.scss'
+import request from 'utils/request'
 //引入图片方法
 import logo from 'assets/logo.jpg'
 export default class Login extends Component {
-    onFinish = values => {
-        console.log(values);
-      };
+
+    onFinish = async ({ mobile, code }) => {
+        const res = await request({
+            method:'post',
+            url:'/authorizations',
+            data: {
+                mobile,
+                code
+            }
+        })
+        console.log(res)
+    }
+    
     render() {
 
         return (
@@ -17,6 +28,11 @@ export default class Login extends Component {
                     <Form 
                         size="large"
                         onFinish={this.onFinish}
+                        initialValues={{
+                            mobile:'13911111111',
+                            code:'246810',
+                            agree:true
+                        }}
 
                     >
                         <Form.Item
