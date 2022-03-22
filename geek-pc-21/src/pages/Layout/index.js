@@ -7,6 +7,8 @@ export default class Layout extends Component {
         <div>
             <div className={styles.aa}>首页布局组件</div>
             <div className={styles.bb}>bb</div>
+            <div className={`iconfont icon-duigou`}>bb</div>
+
 
         </div>
         )
