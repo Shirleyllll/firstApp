@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Form, Input, Button, Checkbox } from 'antd'
+import { Card, Form, Input, Button, Checkbox, message } from 'antd'
 import './index.scss'
 import { login } from 'api/user'
 //引入图片方法
@@ -7,24 +7,39 @@ import logo from 'assets/logo.jpg'
 export default class Login extends Component {
 
     onFinish = async ({ mobile, code }) => {
+        this.setState({
+            loading: true
+        })
         try {
             const res = await login(mobile, code);
             console.log(res)
-            //登录成功
-            //1.保存token
-            localStorage.setItem('token',res.data.token)
-            //2.跳转到首页
-            this.props.history.push('/home')
-            //3.提示消息
-            alert('登录成功')
+                //3.提示消息
+            message.success('登录成功', 1, () => {
+                //登录成功
+                //1.保存token
+                localStorage.setItem('token',res.data.token)
+                //2.跳转到首页
+                this.props.history.push('/home')
+            })
+
         } catch(error) {
-            console.log(error)
-            alert(error.response.data)
+            // console.log(error)
+            // alert(error.response.data)
+            message.warning(error.response.data.message, 1,  () => {
+                this.setState({
+                    loading: false
+                })
+            })
         }
 
     }
+    state = {
+        //加载状态
+        loading: false
+    }
     
     render() {
+
 
         return (
             <div className="login">
@@ -86,7 +101,7 @@ export default class Login extends Component {
                         </Form.Item>
 
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" block>
+                            <Button type="primary" htmlType="submit" block loading={this.state.loading}>
                                 登录
                             </Button>
                         </Form.Item>
