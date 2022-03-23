@@ -1,0 +1,28 @@
+// .aa {
+//     color: red;
+//     background-color: pink;
+// }
+// .bb {
+//     color: pink;
+// }
+// .aa :global(.ant-pagination-item-active) {
+//     border-color:red
+// }
+// .aa :global(.ant-pagination-item-active) a {
+//     color:red !important
+// }
+
+.aa {
+    color: red;
+
+    :global {
+        .ant-pagination-item-active {
+            border-color:red;
+            a {
+                color:red;
+            }
+        }
+    }
+    
+    
+}

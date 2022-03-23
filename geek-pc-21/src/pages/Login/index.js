@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Form, Input, Button, Checkbox, message } from 'antd'
-import './index.scss'
+import styles from './index.module.scss'
 import { login } from 'api/user'
 //引入图片方法
 import logo from 'assets/logo.jpg'
@@ -42,7 +42,7 @@ export default class Login extends Component {
 
 
         return (
-            <div className="login">
+            <div className={styles.login}>
                 <Card className="login-container">
                     {/* 引入图片 */}
                     <img src={logo} alt="" />
