@@ -7,6 +7,7 @@ import ArticleList from 'pages/ArticleList';
 import ArticlePublish from 'pages/ArticlePublish'
 import { HomeOutlined, DiffOutlined, EditOutlined, LoginOutlined } from '@ant-design/icons';
 import styles from './index.module.scss'
+import { removeToken } from 'utils/storage';
 const { Header, Content, Sider } = Layout;
 
 export default class LayoutComponent extends Component {
@@ -72,7 +73,8 @@ export default class LayoutComponent extends Component {
     onConfirm = () => {
         // console.log("点击了确定按钮")
         //移除token
-        localStorage.removeItem('token')
+        // localStorage.removeItem('token')
+        removeToken()
         //跳转到登录页
         this.props.history.push('/login')
         //提示消息

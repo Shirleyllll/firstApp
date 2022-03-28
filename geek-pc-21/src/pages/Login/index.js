@@ -4,6 +4,7 @@ import styles from './index.module.scss'
 import { login } from 'api/user'
 //引入图片方法
 import logo from 'assets/logo.jpg'
+import { setToken } from 'utils/storage'
 export default class Login extends Component {
 
     onFinish = async ({ mobile, code }) => {
@@ -17,7 +18,8 @@ export default class Login extends Component {
             message.success('登录成功', 1, () => {
                 //登录成功
                 //1.保存token
-                localStorage.setItem('token',res.data.token)
+                setToken(res.data.token)
+                // localStorage.setItem('token',res.data.token)
                 //2.跳转到首页
                 this.props.history.push('/home')
             })
