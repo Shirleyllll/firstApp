@@ -21,7 +21,14 @@ export default class Login extends Component {
                 setToken(res.data.token)
                 // localStorage.setItem('token',res.data.token)
                 //2.跳转到首页
-                this.props.history.push('/home')
+                //判断location.state中是否有值
+                const { state } = this.props.location
+
+                if (state) {
+                    this.props.history.push(state.from)
+                }else {
+                    this.props.history.push('/home')
+                }
             })
 
         } catch(error) {
