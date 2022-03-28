@@ -11,6 +11,17 @@
             margin: 16px 24px 16px 0;
             background: rgba(255, 255, 255, 0.3);
           }
+          .profile{
+            color: white;
+            font-weight: 700;
+            position: absolute;
+            right: 20px;
+            // span的兄弟span 找到最后一个span
+            span + span {
+              margin-left: 20px;
+              cursor: pointer;
+            }
+          }
           
           .ant-row-rtl .logo {
             float: right;

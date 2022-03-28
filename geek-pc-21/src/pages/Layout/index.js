@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 //css modules会自动对样式文件中的所有的选择器命名
-import { Layout, Menu, Breadcrumb } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import { Layout, Menu } from 'antd';
+import { Switch, Route, Link } from 'react-router-dom';
+import Home from 'pages/Home';
+import ArticleList from 'pages/ArticleList';
+import ArticlePublish from 'pages/ArticlePublish'
+import { HomeOutlined, DiffOutlined, EditOutlined, LoginOutlined } from '@ant-design/icons';
 import styles from './index.module.scss'
-
-const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 export default class LayoutComponent extends Component {
@@ -14,55 +16,42 @@ export default class LayoutComponent extends Component {
                 <Layout>
                     <Header className="header">
                     <div className="logo" />
-                    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-                        <Menu.Item key="1">nav 1</Menu.Item>
-                        <Menu.Item key="2">nav 2</Menu.Item>
-                        <Menu.Item key="3">nav 3</Menu.Item>
-                    </Menu>
+                    <div className="profile">
+                        <span>用户名</span>
+                        <span>
+                            <LoginOutlined />
+                            {" "}退出
+                        </span>
+                    </div>
                     </Header>
                     <Layout>
                     <Sider width={200} className="site-layout-background">
                         <Menu
+                        theme="dark"
                         mode="inline"
                         defaultSelectedKeys={['1']}
-                        defaultOpenKeys={['sub1']}
                         style={{ height: '100%', borderRight: 0 }}
                         >
-                        <SubMenu key="sub1" icon={<UserOutlined />} title="subnav 1">
-                            <Menu.Item key="1">option1</Menu.Item>
-                            <Menu.Item key="2">option2</Menu.Item>
-                            <Menu.Item key="3">option3</Menu.Item>
-                            <Menu.Item key="4">option4</Menu.Item>
-                        </SubMenu>
-                        <SubMenu key="sub2" icon={<LaptopOutlined />} title="subnav 2">
-                            <Menu.Item key="5">option5</Menu.Item>
-                            <Menu.Item key="6">option6</Menu.Item>
-                            <Menu.Item key="7">option7</Menu.Item>
-                            <Menu.Item key="8">option8</Menu.Item>
-                        </SubMenu>
-                        <SubMenu key="sub3" icon={<NotificationOutlined />} title="subnav 3">
-                            <Menu.Item key="9">option9</Menu.Item>
-                            <Menu.Item key="10">option10</Menu.Item>
-                            <Menu.Item key="11">option11</Menu.Item>
-                            <Menu.Item key="12">option12</Menu.Item>
-                        </SubMenu>
+                            <Menu.Item key="1" icon={<HomeOutlined></HomeOutlined>}>
+                                <Link to="/home">数据概览</Link>
+                            </Menu.Item>
+                            <Menu.Item key="2" icon={<DiffOutlined />}>
+                                <Link to="/home/list">内容管理</Link>
+                            </Menu.Item>
+                            <Menu.Item key="3" icon={<EditOutlined />}>
+                                <Link to="/home/publish">发布文章</Link>
+                            </Menu.Item>
                         </Menu>
                     </Sider>
-                    <Layout style={{ padding: '0 24px 24px' }}>
-                        <Breadcrumb style={{ margin: '16px 0' }}>
-                        <Breadcrumb.Item>Home</Breadcrumb.Item>
-                        <Breadcrumb.Item>List</Breadcrumb.Item>
-                        <Breadcrumb.Item>App</Breadcrumb.Item>
-                        </Breadcrumb>
+                    <Layout style={{ padding: '24px' }}>
                         <Content
                         className="site-layout-background"
-                        style={{
-                            padding: 24,
-                            margin: 0,
-                            minHeight: 280,
-                        }}
                         >
-                        Content
+                            <Switch>
+                                <Route exact path="/home" component={Home}></Route>
+                                <Route path="/home/list" component={ArticleList} ></Route>
+                                <Route path="/home/publish" component={ArticlePublish}></Route>
+                            </Switch>
                         </Content>
                     </Layout>
                     </Layout>
