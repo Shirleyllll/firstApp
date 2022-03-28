@@ -22,7 +22,7 @@ export default class LayoutComponent extends Component {
                     <Header className="header">
                     <div className="logo" />
                     <div className="profile">
-                        <span>{this.state.profile.name}</span>
+                        <span>{this.state.profile.mobile}</span>
                         <span>
                             <Popconfirm
                                 title="确定要退出本系统吗"
