@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 //css modules会自动对样式文件中的所有的选择器命名
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, message, Popconfirm } from 'antd';
 import { Switch, Route, Link } from 'react-router-dom';
 import Home from 'pages/Home';
 import ArticleList from 'pages/ArticleList';
@@ -19,8 +19,17 @@ export default class LayoutComponent extends Component {
                     <div className="profile">
                         <span>用户名</span>
                         <span>
-                            <LoginOutlined />
+                            <Popconfirm
+                                title="确定要退出本系统吗"
+                                onConfirm={this.onConfirm}
+                                // onCancel={cancel}
+                                okText="确定"
+                                cancelText="取消"
+                            >
+                            <LoginOutlined /> 
                             {" "}退出
+
+                            </Popconfirm>
                         </span>
                     </div>
                     </Header>
@@ -58,5 +67,15 @@ export default class LayoutComponent extends Component {
                 </Layout>
             </div>
         )
+    }
+    //退出系统
+    onConfirm = () => {
+        // console.log("点击了确定按钮")
+        //移除token
+        localStorage.removeItem('token')
+        //跳转到登录页
+        this.props.history.push('/login')
+        //提示消息
+        message.success('退出成功')
     }
 }
