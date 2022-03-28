@@ -8,9 +8,13 @@ import ArticlePublish from 'pages/ArticlePublish'
 import { HomeOutlined, DiffOutlined, EditOutlined, LoginOutlined } from '@ant-design/icons';
 import styles from './index.module.scss'
 import { removeToken } from 'utils/storage';
+import { getUserProfile } from 'api/user';
 const { Header, Content, Sider } = Layout;
 
 export default class LayoutComponent extends Component {
+    state = {
+        profile:{}
+    }
     render() {
         return (
             <div className={styles.layout}>
@@ -18,7 +22,7 @@ export default class LayoutComponent extends Component {
                     <Header className="header">
                     <div className="logo" />
                     <div className="profile">
-                        <span>用户名</span>
+                        <span>{this.state.profile.name}</span>
                         <span>
                             <Popconfirm
                                 title="确定要退出本系统吗"
@@ -68,6 +72,15 @@ export default class LayoutComponent extends Component {
                 </Layout>
             </div>
         )
+    }
+
+    async componentDidMount() {
+        const res = await getUserProfile()
+        console.log(res)
+        this.setState({
+            profile: res.data,
+
+        })
     }
     //退出系统
     onConfirm = () => {
