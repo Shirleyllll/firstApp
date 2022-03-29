@@ -43,16 +43,16 @@ export default class LayoutComponent extends Component {
                         <Menu
                         theme="dark"
                         mode="inline"
-                        defaultSelectedKeys={['1']}
+                        defaultSelectedKeys={[this.props.location.pathname]}
                         style={{ height: '100%', borderRight: 0 }}
                         >
-                            <Menu.Item key="1" icon={<HomeOutlined></HomeOutlined>}>
+                            <Menu.Item key="/home" icon={<HomeOutlined></HomeOutlined>}>
                                 <Link to="/home">数据概览</Link>
                             </Menu.Item>
-                            <Menu.Item key="2" icon={<DiffOutlined />}>
+                            <Menu.Item key="/home/list" icon={<DiffOutlined />}>
                                 <Link to="/home/list">内容管理</Link>
                             </Menu.Item>
-                            <Menu.Item key="3" icon={<EditOutlined />}>
+                            <Menu.Item key="/home/publish" icon={<EditOutlined />}>
                                 <Link to="/home/publish">发布文章</Link>
                             </Menu.Item>
                         </Menu>
