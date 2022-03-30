@@ -1,5 +1,5 @@
 
-import {Router, Route, Switch} from 'react-router-dom'
+import {Router, Route, Switch,Redirect} from 'react-router-dom'
 import Home from './pages/Layout'
 import Login from './pages/Login'
 import AuthRoute from 'components/AuthRoute'
@@ -14,6 +14,8 @@ function App() {
 
         {/* 配置路由的规则 */}
         <Switch>
+          {/* redirect指定from时必须写到switch里面 */}
+          <Redirect exact from="/" to='/home'></Redirect>
           <AuthRoute path="/home" component={Home}></AuthRoute>
           <Route path="/login" component={Login}></Route>
           {/* render方法需要传入props */}

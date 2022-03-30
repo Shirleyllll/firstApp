@@ -59,13 +59,15 @@ export default class ArticleList extends Component {
                         <Button type="primary" shape="circle" icon={<EditOutlined />} />
                         <Button type="primary" danger shape="circle" icon={<DeleteOutlined />} />
                     </Space>
-
-
                 )
             }
         }
       ];
-      
+    // 用于存放查询文章列表的所有的参数
+    reqParams = {
+        page:1,
+        per_page:10
+    }
       
     state = {
         //频道列表数据
@@ -73,7 +75,7 @@ export default class ArticleList extends Component {
         articles: {}
     }
     render() {
-        const { total_count, results } = this.state.articles
+        const { total_count, results, per_page, page } = this.state.articles
         return (
             <div className={styles.root}>
                 <Card 
@@ -116,12 +118,27 @@ export default class ArticleList extends Component {
                     </Form>
                 </Card>
                 <Card title={`根据筛选条件工查询到${ total_count }条结果`}>
-                    <Table columns={this.columns} dataSource={results} rowKey="id" />
+                    <Table 
+                        columns={this.columns} 
+                        dataSource={results} 
+                        rowKey="id"
+                        pagination={{
+                            position: ['bottomCenter'],
+                            total: total_count,
+                            pageSize : per_page,
+                            current: page,
+                            onChange: this.onChange
+                        }} 
+                        />
                 </Card>
             </div>
         )
     }
-
+    onChange = (page, pageSize) => {
+        this.reqParams.page = page
+        this.reqParams.per_page = pageSize
+        this.getArticleList()
+    }
     componentDidMount() {
         // 同时发出两个请求
         this.getChannelList()
@@ -135,7 +152,7 @@ export default class ArticleList extends Component {
     }
 
     async getArticleList () {
-        const res2 = await getArticles()
+        const res2 = await getArticles(this.reqParams)
         // console.log(res2)
         this.setState({
             articles: res2.data
