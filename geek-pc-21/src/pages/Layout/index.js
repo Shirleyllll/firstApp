@@ -57,7 +57,7 @@ export default class LayoutComponent extends Component {
                             </Menu.Item>
                         </Menu>
                     </Sider>
-                    <Layout style={{ padding: '24px' }}>
+                    <Layout style={{ padding: '24px', overflow: 'auto' }}>
                         <Content
                         className="site-layout-background"
                         >
