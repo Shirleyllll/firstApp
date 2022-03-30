@@ -29,6 +29,10 @@ instance.interceptors.response.use(
         return response.data
     },
     function (error) {
+        if( !error.response) {
+            //如果error信息中没有response，网络超时导致
+            return Promise.reject(new Error('网络繁忙，请稍后重试'))
+        }
         if(error.response.status === 401) {
             //代表token过期了
             //1、 删除token

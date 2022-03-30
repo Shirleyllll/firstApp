@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import styles from './index.module.scss'
-import { Card, Breadcrumb, Form, Radio,Button, Select, DatePicker,Table ,Tag, Space } from 'antd'
+import { Card, Breadcrumb, Form, Radio,Button, DatePicker,Table ,Tag, Space } from 'antd'
 import { Link } from 'react-router-dom'
 import { ArticleStatus } from 'api/constants'
-import { getChannels } from 'api/channel'
 import { getArticles } from 'api/article'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import Channel from 'components/Channel'
 
 const { RangePicker } = DatePicker
-const { Option } = Select
 
 export default class ArticleList extends Component {
     columns = [
@@ -71,7 +70,6 @@ export default class ArticleList extends Component {
       
     state = {
         //频道列表数据
-        channels: [],
         articles: {}
     }
     render() {
@@ -101,13 +99,7 @@ export default class ArticleList extends Component {
                             </Radio.Group>
                         </Form.Item>
                         <Form.Item label="频道" name="channel_id">
-                            <Select style={{ width: 200 }} placeholder="请选择文章频道">
-                                {
-                                    this.state.channels.map((item) => (
-                                        <Option value={item.id} key={item.id}>{item.name}</Option>
-                                    ))
-                                }
-                            </Select>
+                            <Channel></Channel>
                         </Form.Item>
                         <Form.Item label="日期" name="date">
                             <RangePicker></RangePicker>
@@ -141,14 +133,7 @@ export default class ArticleList extends Component {
     }
     componentDidMount() {
         // 同时发出两个请求
-        this.getChannelList()
         this.getArticleList()
-    }
-    async getChannelList() {
-        const res = await getChannels()
-        this.setState({
-            channels: res.data.channels
-        })
     }
 
     async getArticleList () {
