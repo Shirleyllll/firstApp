@@ -159,7 +159,26 @@ export default class ArticleList extends Component {
         })
     }
 
-    onFinish = (values) => [
-        console.log(values)
-    ]
+    onFinish = ({status, channel_id,date}) => {
+        if(status !== -1){
+            this.reqParams.status = status
+        } else {
+            delete this.reqParams.status
+        }
+        if(channel_id !== undefined) {
+            this.reqParams.channel_id = channel_id
+        }
+        if(date) {
+            this.reqParams.begin_pubdate = date[0]
+            .startOf('day').format('YYYY-MM-DD HH:mm:ss')
+            this.reqParams.end_pubdate = date[1]
+            .startOf('day').format('YYYY-MM-DD HH:mm:ss')
+
+
+        }
+        console.log(this.reqParams)
+        this.reqParams.page=1
+        this.getArticleList()
+
+    }
 }
