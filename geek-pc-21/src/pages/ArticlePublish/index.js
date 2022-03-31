@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import styles from './index.module.scss'
-import { Breadcrumb, Button, Card,Form, Space, Input, Radio, Upload} from 'antd'
+import { Breadcrumb, Button, Card,Form, Space, Input, Radio, Upload, Modal, message} from 'antd'
 import { Link } from 'react-router-dom'
 import Channel from 'components/Channel'
-// import ReactQuill from 'react-quill'
+import ReactQuill from 'react-quill'
 import { PlusOutlined } from '@ant-design/icons'
 import 'react-quill/dist/quill.snow.css'
 import { baseURL } from 'utils/request'
+// import { addArticle } from 'api/article'
 export default class ArticlePublish extends Component {
     state = {
         type:1,
@@ -16,7 +17,9 @@ export default class ArticlePublish extends Component {
                 status:'done',
                 url:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
             }
-        ]
+        ],
+        showPreview: false,
+        previewUrl:''
     }
 
     render() {
@@ -79,6 +82,8 @@ export default class ArticlePublish extends Component {
                                     action={`${baseURL}upload`}
                                     name="image"
                                     onChange={this.uploadImage}
+                                    onPreview={this.handlePreview}
+                                    beforeUpload={this.beforeUpload}
                                     >
                                         {
                                             this.state.fileList.length < this.state.type && <PlusOutlined></PlusOutlined>
@@ -87,9 +92,9 @@ export default class ArticlePublish extends Component {
                                 )
                             }
                         </Form.Item>
-                        {/* <Form.Item label="内容" name="content">
+                        <Form.Item label="内容" name="content">
                             <ReactQuill theme="snow"></ReactQuill>
-                        </Form.Item> */}
+                        </Form.Item>
                         <Form.Item>
                             <Space>
                                 <Button type="primary" htmlType="submit" size="large">发布文章</Button>
@@ -98,16 +103,20 @@ export default class ArticlePublish extends Component {
                         </Form.Item>
                     </Form>
                 </Card>
+                <Modal
+                visible={this.state.showPreview}
+                title={'图片预览'}
+                footer={null}
+                onCancel={this.handleCancel}
+                >
+                    <img src={this.state.previewUrl} style={{ width: '100%' }} alt="example" />
+                </Modal>
             </div>
         )
     }
 
     componentDidMount() {
 
-    }
-
-    onFinish = (values) => {
-        console.log(values)
     }
 
     changeType = (e) =>{
@@ -121,5 +130,52 @@ export default class ArticlePublish extends Component {
              fileList,
          })
     }
+    handlePreview = (file) => {
+        // console.log(file)
+        const url = file.url || file.response.data.url
+        this.setState({
+            showPreview: true,
+            previewUrl: url
+        })
+    }
 
+    handleCancel = () =>{
+        this.setState({
+            showPreview: false,
+            previewUrl: ''
+        })
+    }
+
+    beforeUpload = (file) => {
+        if(file.size >= 1024*500) {
+            message.warn('上传的文件不能超过500kb')
+            return Upload.LIST_IGNORE
+        }
+        if(!['image/png','image/jpeg'].includes(file.type)) {
+            message.warn('只能上传jpg或者png的图片')
+            return Upload.LIST_IGNORE
+        }
+        return true
+    }
+
+    onFinish = (values) => {
+        console.log(values)
+        // const {fileList, type} = this.state
+        // if(fileList.length !== type){
+        //     message.warn('上传图片数量不正确')
+        // }
+        // const images = fileList.map(item => {
+        //     return item.url || item.response.data.url
+        // })
+        // //添加文章
+        // const res = await addArticle({
+        //     ...values,
+        //     cover: {
+        //         type,
+        //         images
+        //     }
+        // })
+        // message.success('添加成功');
+        // this.props.history.push('/home/list');
+    }
 }
