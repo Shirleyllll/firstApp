@@ -52,10 +52,15 @@ export default class ArticleList extends Component {
         {
             title: '操作',
             // dataIndex: 'tags',
-            render(data) {
+            render:(data) => {
                 return (
                     <Space>
-                        <Button type="primary" shape="circle" icon={<EditOutlined />} />
+                        <Button 
+                        type="primary"
+                         shape="circle" 
+                         icon={<EditOutlined />} 
+                         onClick={() => this.handleEdit(data.id)} 
+                         />
                         <Button type="primary" danger shape="circle" icon={<DeleteOutlined />} />
                     </Space>
                 )
@@ -143,7 +148,9 @@ export default class ArticleList extends Component {
             articles: res2.data
         })
     }
-
+    handleEdit = (id) => {
+        this.props.history.push(`/home/publish/${id}`)
+    }
     onFinish = ({status, channel_id,date}) => {
         if(status !== -1){
             this.reqParams.status = status

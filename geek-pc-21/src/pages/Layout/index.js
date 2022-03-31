@@ -61,10 +61,14 @@ export default class LayoutComponent extends Component {
                         <Content
                         className="site-layout-background"
                         >
+                            {/* 在这个里面切换路由 */}
                             <Switch>
                                 <Route exact path="/home" component={Home}></Route>
                                 <Route path="/home/list" component={ArticleList} ></Route>
-                                <Route path="/home/publish" component={ArticlePublish}></Route>
+                                {/* 新增的路由 要加exact不然带id的路由永远会渲染这里 */}
+                                <Route exact path="/home/publish" component={ArticlePublish}></Route>
+                                {/* 修改的路由 */}
+                                <Route path="/home/publish/:id" component={ArticlePublish}></Route>
                             </Switch>
                         </Content>
                     </Layout>
