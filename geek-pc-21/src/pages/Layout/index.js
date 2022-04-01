@@ -13,7 +13,8 @@ const { Header, Content, Sider } = Layout;
 
 export default class LayoutComponent extends Component {
     state = {
-        profile:{}
+        profile:{},
+        selectedKey:this.props.location.pathname
     }
     render() {
         return (
@@ -43,7 +44,7 @@ export default class LayoutComponent extends Component {
                         <Menu
                         theme="dark"
                         mode="inline"
-                        defaultSelectedKeys={[this.props.location.pathname]}
+                        defaultSelectedKeys={[this.state.selectedKey]}
                         style={{ height: '100%', borderRight: 0 }}
                         >
                             <Menu.Item key="/home" icon={<HomeOutlined></HomeOutlined>}>
@@ -78,6 +79,16 @@ export default class LayoutComponent extends Component {
         )
     }
 
+    //组件更新完成的钩子函数。。。路由变化完成了，组件也是会重新渲染
+    //prevProps: 上一次的props
+    componentDidUpdate(prevProps) {
+        // 判断是否是url地址放生了变化，如果是，才更新
+        if (this.state.selectedKey !== prevProps.location.pathname){
+            this.setState({
+                selectedKey: this.props.location.pathname
+            })
+        }
+    }
     async componentDidMount() {
         const res = await getUserProfile()
         console.log(res)
