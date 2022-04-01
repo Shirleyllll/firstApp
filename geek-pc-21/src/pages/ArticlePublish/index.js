@@ -7,7 +7,7 @@ import ReactQuill from 'react-quill'
 import { PlusOutlined } from '@ant-design/icons'
 import 'react-quill/dist/quill.snow.css'
 import { baseURL } from 'utils/request'
-import { getArticleById } from 'api/article'
+import { getArticleById, updateArticle } from 'api/article'
 
 // import { addArticle } from 'api/article'
 export default class ArticlePublish extends Component {
@@ -139,6 +139,7 @@ export default class ArticlePublish extends Component {
             })
             this.setState({
                 fileList,
+                type: res.data.cover.type
             })
 
         }
@@ -184,22 +185,37 @@ export default class ArticlePublish extends Component {
     }
     save = async (values, draft) => {
         console.log(values)
-        // const {fileList, type} = this.state
-        // if(fileList.length !== type){
-        //     message.warn('上传图片数量不正确')
-        // }
-        // const images = fileList.map(item => {
-        //     return item.url || item.response.data.url
-        // })
+        const {fileList, type} = this.state
+        if(fileList.length !== type){
+            message.warn('上传图片数量不正确')
+        }
+        const images = fileList.map(item => {
+            return item.url || item.response.data.url
+        })
+        // if( this.state.id) {
+        //     //修改
+        //     const res= await updateArticle({
+        //         ...values,
+        //         cover: {
+        //             type,
+        //             images
+        //         },
+        //         id:this.state.id
+        //     }, draft)
+        //     message.success('修改成功');
+
+        // } else {
         // //添加文章
-        // const res = await addArticle({
-        //     ...values,
-        //     cover: {
-        //         type,
-        //         images
-        //     }
-        // }, draft)
-        // message.success('添加成功');
+        //     const res = await addArticle({
+        //         ...values,
+        //         cover: {
+        //             type,
+        //             images
+        //         }
+        //     }, draft)
+        //     message.success('添加成功');
+        // }
+
         this.props.history.push('/home/list');
     }
     onFinish = (values) => {

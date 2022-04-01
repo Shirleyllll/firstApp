@@ -31,3 +31,17 @@ export const addArticle = (data, draft = false) => {
 export const getArticleById = (id) => {
     return request.get(`/mp/articles/${id}`)
 }
+/**
+ * 修改文章
+ * @param {*} data 
+ * @param {*} draft 
+ * @returns 
+ */
+
+export const updateArticle = (data,draft) => {
+    return request({
+        url: `/mp/articles/${data.id}?draft=${draft}`,
+        method: 'put',
+        data
+    })
+}
