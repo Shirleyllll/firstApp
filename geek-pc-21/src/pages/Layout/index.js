@@ -2,15 +2,19 @@ import React, { Component } from 'react'
 //css modules会自动对样式文件中的所有的选择器命名
 import { Layout, Menu, message, Popconfirm } from 'antd';
 import { Switch, Route, Link } from 'react-router-dom';
-import Home from 'pages/Home';
-import ArticleList from 'pages/ArticleList';
-import ArticlePublish from 'pages/ArticlePublish'
+
+// import Home from 'pages/Home';
+// import ArticleList from 'pages/ArticleList';
+// import ArticlePublish from 'pages/ArticlePublish'
 import { HomeOutlined, DiffOutlined, EditOutlined, LoginOutlined } from '@ant-design/icons';
 import styles from './index.module.scss'
 import { removeToken } from 'utils/storage';
 import { getUserProfile } from 'api/user';
 const { Header, Content, Sider } = Layout;
 
+const Home = React.lazy(() => import('pages/Home'))
+const ArticleList = React.lazy(() => import('pages/ArticleList'))
+const ArticlePublish = React.lazy(() => import('pages/ArticlePublish'))
 export default class LayoutComponent extends Component {
     state = {
         profile:{},
@@ -44,7 +48,7 @@ export default class LayoutComponent extends Component {
                         <Menu
                         theme="dark"
                         mode="inline"
-                        defaultSelectedKeys={[this.state.selectedKey]}
+                        selectedKeys={[this.state.selectedKey]}
                         style={{ height: '100%', borderRight: 0 }}
                         >
                             <Menu.Item key="/home" icon={<HomeOutlined></HomeOutlined>}>
@@ -83,9 +87,17 @@ export default class LayoutComponent extends Component {
     //prevProps: 上一次的props
     componentDidUpdate(prevProps) {
         // 判断是否是url地址放生了变化，如果是，才更新
-        if (this.state.selectedKey !== prevProps.location.pathname){
+        let pname = this.props.location.pathname
+        if (pname !== prevProps.location.pathname){
+            //考虑修改文章的高亮问题
+            // if(pathname.startsWith('/home/publish')){
+            //     pathname = '/home/publish'
+            // }
+            if(pname.startsWith('/home/publish')){
+                pname = '/home/publish'
+            }
             this.setState({
-                selectedKey: this.props.location.pathname
+                selectedKey: pname
             })
         }
     }

@@ -98,7 +98,7 @@ export default class ArticlePublish extends Component {
                             }
                         </Form.Item>
                         <Form.Item label="内容" name="content">
-                            <ReactQuill theme="snow"></ReactQuill>
+                            {/* <ReactQuill theme="snow"></ReactQuill> */}
                         </Form.Item>
                         <Form.Item>
                             <Space>
