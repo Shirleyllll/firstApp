@@ -7,6 +7,8 @@ import ReactQuill from 'react-quill'
 import { PlusOutlined } from '@ant-design/icons'
 import 'react-quill/dist/quill.snow.css'
 import { baseURL } from 'utils/request'
+import { getArticleById } from 'api/article'
+
 // import { addArticle } from 'api/article'
 export default class ArticlePublish extends Component {
     state = {
@@ -19,10 +21,12 @@ export default class ArticlePublish extends Component {
             }
         ],
         showPreview: false,
-        previewUrl:''
+        previewUrl:'',
+        id: this.props.match.params.id
     }
-
+    formRef = React.createRef()
     render() {
+        console.log(this.props)
         return (
             <div className={styles.articlePublish}>
                 <Card 
@@ -32,18 +36,19 @@ export default class ArticlePublish extends Component {
                                 <Link to="/home">首页</Link>
                             </Breadcrumb.Item>
                             <Breadcrumb.Item>
-                                发布文章
+                                {this.state.id ? '编辑文章': '发布文章'}
                             </Breadcrumb.Item>
                         </Breadcrumb>
                     }
                 >
                     <Form 
+                        ref={this.formRef}
                         labelCol={{ span: 4 }} 
                         wrapperCol={{ offset:4}}
                          size="large" 
                          onFinish={this.onFinish} 
                          validateTrigger={['onBlur','onChange']}
-                         initialValues={{ title:'哈哈哈', channel_id: 4,type: 1}}
+                        //  initialValues={{ title:'哈哈哈', channel_id: 4,type: 1}}
                          >
                         <Form.Item label="标题" name="title" rules={[
                             {
@@ -98,7 +103,7 @@ export default class ArticlePublish extends Component {
                         <Form.Item>
                             <Space>
                                 <Button type="primary" htmlType="submit" size="large">发布文章</Button>
-                                <Button size="large">存入草稿</Button>
+                                <Button size="large"  onClick={this.addDraft}>存入草稿</Button>
                             </Space>
                         </Form.Item>
                     </Form>
@@ -115,8 +120,28 @@ export default class ArticlePublish extends Component {
         )
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        if(this.state.id) {
+            //需要发请求
+            const res = await getArticleById(this.state.id)
+            console.log(res,'data')
+            const values = {
+                ...res.data,
+                type: res.data.cover.type
+            }
+            console.log(this.formRef)
 
+            this.formRef.current.setFieldsValue(values)
+            const fileList = res.data.cover.images.map(item => {
+                return {
+                    url: item,
+                }
+            })
+            this.setState({
+                fileList,
+            })
+
+        }
     }
 
     changeType = (e) =>{
@@ -157,8 +182,7 @@ export default class ArticlePublish extends Component {
         }
         return true
     }
-
-    onFinish = (values) => {
+    save = async (values, draft) => {
         console.log(values)
         // const {fileList, type} = this.state
         // if(fileList.length !== type){
@@ -174,8 +198,17 @@ export default class ArticlePublish extends Component {
         //         type,
         //         images
         //     }
-        // })
+        // }, draft)
         // message.success('添加成功');
-        // this.props.history.push('/home/list');
+        this.props.history.push('/home/list');
+    }
+    onFinish = (values) => {
+        this.save(values,false)
+    }
+    addDraft = async () => {
+        // console.log('添加草稿')
+        const values = await this.formRef.current.validateFields()
+        console.log(values)
+        this.save(values,true)
     }
 }

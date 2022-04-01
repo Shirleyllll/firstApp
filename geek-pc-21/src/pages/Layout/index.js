@@ -66,9 +66,9 @@ export default class LayoutComponent extends Component {
                                 <Route exact path="/home" component={Home}></Route>
                                 <Route path="/home/list" component={ArticleList} ></Route>
                                 {/* 新增的路由 要加exact不然带id的路由永远会渲染这里 */}
-                                <Route exact path="/home/publish" component={ArticlePublish}></Route>
+                                <Route exact path="/home/publish" component={ArticlePublish} key="add"></Route>
                                 {/* 修改的路由 */}
-                                <Route path="/home/publish/:id" component={ArticlePublish}></Route>
+                                <Route path="/home/publish/:id" component={ArticlePublish} key="edit"></Route>
                             </Switch>
                         </Content>
                     </Layout>
@@ -83,7 +83,6 @@ export default class LayoutComponent extends Component {
         console.log(res)
         this.setState({
             profile: res.data,
-
         })
     }
     //退出系统
